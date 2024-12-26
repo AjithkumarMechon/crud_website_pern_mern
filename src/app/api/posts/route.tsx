@@ -18,7 +18,7 @@ export async function POST(req: NextRequest) {
   try {
     await connectMongo();
     const body = await req.json();
-    if (!body) {
+    if (!body || Object.keys(body).length === 0) {
       return NextResponse.json({ error: "Field is empty" }, { status: 400 });
     }
     const postData = await PostModel.create(body);
