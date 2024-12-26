@@ -2,16 +2,19 @@ import connectMongo from "@/utils/connectMongo";
 import PostModel from "@/models/postModel";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(res: NextResponse) {
+// GET handler
+export async function GET(req: NextRequest) {
   try {
     await connectMongo();
     const postData = await PostModel.find({});
     return NextResponse.json(postData, { status: 200 });
   } catch (error) {
-    return NextResponse.json({ error: (error as Error).message });
+    return NextResponse.json({ error: (error as Error).message }, { status: 500 });
   }
 }
-export async function POST(req: NextRequest, res: NextResponse) {
+
+// POST handler
+export async function POST(req: NextRequest) {
   try {
     await connectMongo();
     const body = await req.json();
@@ -21,6 +24,6 @@ export async function POST(req: NextRequest, res: NextResponse) {
     const postData = await PostModel.create(body);
     return NextResponse.json(postData, { status: 201 });
   } catch (error) {
-    return NextResponse.json({ error: (error as Error).message });
+    return NextResponse.json({ error: (error as Error).message }, { status: 500 });
   }
 }
