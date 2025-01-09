@@ -33,7 +33,7 @@ const generateToken = (
 
   const headers = {
       'Access-Control-Allow-Origin': process.env.NODE_ENV, 
-      'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
+      'Access-Control-Allow-Methods': 'POST, GET',
       'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-Requested-With',
       'Access-Control-Allow-Credentials': 'true',
       'Access-Control-Max-Age': '3600'

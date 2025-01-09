@@ -32,7 +32,7 @@ const generateToken = (
 
   const headers = {
       'Access-Control-Allow-Origin': process.env.NODE_ENV, // You can specify a domain here for production
-      'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
+      'Access-Control-Allow-Methods': 'POST, GET',
       'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-Requested-With',
       'Access-Control-Allow-Credentials': 'true',
       'Access-Control-Max-Age': '3600'
