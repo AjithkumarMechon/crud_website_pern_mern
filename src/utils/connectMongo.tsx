@@ -19,11 +19,12 @@ const connectMongo = async () => {
 // CORS middleware configuration
 const corsOptions = {
   origin: port, // Replace with your frontend URL
-  methods: "GET,POST,PUT,DELETE", // Allowable methods
-  allowedHeaders: "Content-Type, Authorization", // Allowable headers
+  methods: "GET,POST,PUT,DELETE,HEAD,PATCH", // Allowable methods
 };
 
 // Use CORS middleware
 app.use(cors(corsOptions));
-
+// app.listen(port, () => {
+//   console.log(`Server running on port ${port}`);
+// });
 export default connectMongo;
