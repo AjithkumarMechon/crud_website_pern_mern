@@ -7,7 +7,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
-const LoginComponent = (): JSX.Element => {
+const SignupComponent = (): JSX.Element => {
   const [visiblePw, setVisiblePw] = useState<Boolean>(false);
   // const [data, setData] = useState();
   const {
@@ -17,24 +17,22 @@ const LoginComponent = (): JSX.Element => {
   } = useForm();
 
   const route = useRouter();
-
   const onSubmit: SubmitHandler<FieldValues> = async (values) => {
     try {
-      const url = process.env.HOST_ENV? `${process.env.HOST_ENV}api/auth/` : "http://localhost:3000/api/auth/";
-      const response = await axios.post(url, values);
-      console.log("response", response);    
+      const response = await axios.post(process.env.HOST_ENV ? `${process.env.HOST_ENV}api/authSignup/`:"http://localhost:3000/api/authSignup/",
+        values
+      );
       if (response.status === 200) {
-        Cookies.set("token", response?.data?.token); 
-        route.push("/dashboard"); 
+        // Cookies.set("token", response?.data?.token, { expires: 1 }); // 1 day if u want hours 8 hours / 24hours like u assign expires depends on FE
+        Cookies.set("token", response?.data?.token); // Expires depends on BE
+        route.push("/dashboard");
       } else {
-        toast.error("Something went wrong.");
+        toast.error("Something went wrong. ");
       }
     } catch (error) {
-      console.error("Error details:", error);
-      toast.error("Something went wrong.");
+      toast.error("Something went wrong. ");
     }
   };
-
   return (
     <>
       <form>
@@ -83,11 +81,11 @@ const LoginComponent = (): JSX.Element => {
           type="submit"
           onClick={handleSubmit(onSubmit)}
         >
-          Login
+          Signup
         </button>
       </div>
-      <div><p>Create new account ? <a href="/signup">Signup</a></p></div>
+      <div><p>Already have a account ? <a href="/">Login</a></p></div>
     </>
   );
 };
-export default LoginComponent;
+export default SignupComponent;
