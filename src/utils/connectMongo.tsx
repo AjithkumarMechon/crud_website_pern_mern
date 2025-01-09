@@ -1,7 +1,11 @@
 import mongoose from "mongoose";
 const express = require("express");
 import dotenv from "dotenv";
+import cors from "cors";  
+
 dotenv.config();
+const app = express();
+const port = process.env.HOST_ENV || 'http://localhost:3000/';
 
 const connectMongo = async () => {
   try {
@@ -12,5 +16,14 @@ const connectMongo = async () => {
     throw new Error("MongoDB connection failed");
   }
 };
+// CORS middleware configuration
+const corsOptions = {
+  origin: port, // Replace with your frontend URL
+  methods: "GET,POST,PUT,DELETE", // Allowable methods
+  allowedHeaders: "Content-Type, Authorization", // Allowable headers
+};
+
+// Use CORS middleware
+app.use(cors(corsOptions));
 
 export default connectMongo;
