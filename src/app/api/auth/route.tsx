@@ -4,6 +4,8 @@ import { NextRequest, NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 
+
+
 interface UsernameRequestBody {
   username: string;
   password: string;
@@ -29,18 +31,17 @@ const generateToken = (
   return jwt.sign({ username, role }, JWT_SECRET, { expiresIn });
 };
 
-export async function POST(req: NextRequest, res: NextResponse) {
+
+
+export async function POST(req: NextRequest) {
   try {
     await connectMongo();
-    const { username, password }: UsernameRequestBody = await req.json();
+    const { username, password }: { username: string; password: string } = await req.json();
 
     const existingUser = await AuthModel.findOne({ username });
 
     if (existingUser) {
-      const passwordMatch = await bcrypt.compare(
-        password,
-        existingUser.password
-      );
+      const passwordMatch = await bcrypt.compare(password, existingUser.password);
 
       if (passwordMatch) {
         const accessToken = generateAccessToken(username, existingUser.role);
@@ -58,10 +59,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
           { status: 200 }
         );
       } else {
-        return NextResponse.json(
-          { error: "Incorrect password." },
-          { status: 401 }
-        );
+        return NextResponse.json({ error: "Incorrect password." }, { status: 401 });
       }
     } else {
       const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
@@ -86,17 +84,12 @@ export async function POST(req: NextRequest, res: NextResponse) {
           { status: 201 }
         );
       } else {
-        return NextResponse.json(
-          { error: "Failed to create user." },
-          { status: 500 }
-        );
+        return NextResponse.json({ error: "Failed to create user." }, { status: 500 });
       }
     }
   } catch (error) {
     console.error("Authentication Error:", error);
-    return NextResponse.json(
-      { error: "Failed to authenticate user." },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: "Failed to authenticate user." }, { status: 500 });
   }
 }
+
