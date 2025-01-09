@@ -5,7 +5,7 @@ import cors from "cors";
 
 dotenv.config();
 const app = express();
-const port = process.env.HOST_ENV || 'http://localhost:3000/';
+const port = process.env.HOST_ENV || "";
 
 const connectMongo = async () => {
   try {

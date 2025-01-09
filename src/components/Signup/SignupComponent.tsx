@@ -19,7 +19,7 @@ const SignupComponent = (): JSX.Element => {
   const route = useRouter();
   const onSubmit: SubmitHandler<FieldValues> = async (values) => {
     try {
-      const response = await axios.post(process.env.HOST_ENV ? `${process.env.HOST_ENV}api/authSignup/`:"http://localhost:3000/api/authSignup/",
+      const response = await axios.post(process.env.HOST_ENV || "",
         values
       );
       if (response.status === 200) {

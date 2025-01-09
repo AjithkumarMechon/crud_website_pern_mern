@@ -20,7 +20,7 @@ const LoginComponent = (): JSX.Element => {
 
   const onSubmit: SubmitHandler<FieldValues> = async (values) => {
     try {
-      const url = process.env.HOST_ENV? `${process.env.HOST_ENV}api/auth/` : "http://localhost:3000/api/auth/";
+      const url = process.env.HOST_ENV || "";
       const response = await axios.post(url, values);
       console.log("response", response);    
       if (response.status === 200) {

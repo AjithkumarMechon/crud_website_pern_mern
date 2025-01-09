@@ -31,7 +31,13 @@ const generateToken = (
   return jwt.sign({ username, role }, JWT_SECRET, { expiresIn });
 };
 
-
+  const headers = {
+      'Access-Control-Allow-Origin': process.env.NODE_ENV, 
+      'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-Requested-With',
+      'Access-Control-Allow-Credentials': 'true',
+      'Access-Control-Max-Age': '3600'
+    };
 
 export async function POST(req: NextRequest) {
   try {
@@ -56,16 +62,16 @@ export async function POST(req: NextRequest) {
             refreshToken,
             accessToken,
           },
-          { status: 200 }
+           { status: 200, headers}
         );
       } else {
-        return NextResponse.json({ error: "Incorrect password." }, { status: 401 });
+        return NextResponse.json({ error: "Incorrect password." }, { status: 401, headers });
       }
     } else {
-        return NextResponse.json({ error: "user not found." }, { status: 401 });
+        return NextResponse.json({ error: "user not found." }, { status: 401, headers });
       }
   } catch (error) {
     console.error("Authentication Error:", error);
-    return NextResponse.json({ error: "Failed to authenticate user." }, { status: 500 });
+    return NextResponse.json({ error: "Failed to authenticate user." }, { status: 500, headers });
   }
 }
